@@ -32,7 +32,7 @@ let genericQuestion = (question) => {
 function pertCalc(principle, years, interestRate) {
 	var convInterest = interestRate / 100;
 	var total = principle * Math.exp(convInterest * years);
-	return total;
+	return total.toFixed(2);
 }
 
 // lets get it started

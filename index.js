@@ -16,7 +16,7 @@ let getUserInput = async () => {
 	let money = await genericQuestion(`How much money are you saving for ${years} years? `);
 	let rate = await genericQuestion(`What rate are you expecting to get on $${money} for ${years}? `);
 	
-	console.log(pertCalc(money, years, rate));
+	console.log('Your money will grow to be $', pertCalc(money, years, rate));
 	rl.close()
 }
 

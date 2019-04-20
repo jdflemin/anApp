@@ -1,0 +1,1 @@
+Math.pow() is broken for windows machines and has been since 2017. If on windows calc for annual deposits will be wrong!!!!!!!!!!!!!!!!!!!!!!!!!!!!

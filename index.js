@@ -9,6 +9,8 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+let calcMath = require('./maths');
+
 // main method
 let getUserInput = async () => {
 	// get user input
@@ -16,7 +18,35 @@ let getUserInput = async () => {
 	let money = await genericQuestion(`How much money are you saving for ${years} years? `);
 	let rate = await genericQuestion(`What rate are you expecting to get on $${money} for ${years}? `);
 	
-	console.log('Your money will grow to be $', pertCalc(money, years, rate));
+	let annualContribution;
+	let keepAsking = true;
+	// see if user wants to make an annual deposit
+	while (keepAsking) {
+		let answer = await genericQuestion('Do you want to contribute annually? (Yes/No) ');
+		if (
+			answer.trim() == 'yes' || 
+			answer.trim() == 'no' || 
+			answer.trim() == 'y' || 
+			answer.trim() == 'n'
+		) {
+			keepAsking = false;
+			if (
+				answer.trim() == 'yes' || 
+				answer.trim() == 'y'
+			) annualContribution = await genericQuestion('What will be your annual contribution? ');
+		} else {
+			console.log('Please answer with either Yes or No');
+		}
+	}
+
+	if (annualContribution) {
+		// annual contribution
+
+		console.log('Your money will grow to be $', calcMath.annualDeposits(money, years, rate, annualContribution));
+	} else {
+		// no annual contribution
+		console.log('Your money will grow to be $', calcMath.pertCalc(money, years, rate));
+	}
 	rl.close()
 }
 
@@ -29,13 +59,7 @@ let genericQuestion = (question) => {
 	});
 }
 
-//this does all the math shit ya dig?
-function pertCalc(principle, years, interestRate) {
-	var convInterest = interestRate / 100;
-	var total = principle * Math.exp(convInterest * years);
-	return total.toFixed(2);
-}
-
-// lets get it started
+// lets get it started in ha let's get it started in
 getUserInput();
+
 

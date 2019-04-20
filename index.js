@@ -13,8 +13,23 @@ let calcMath = require('./maths');
 
 // main method
 let getUserInput = async () => {
+	// pow broken on windows
+	let windows = checkOS();
+
 	// get user input
-	let years = await genericQuestion('How many years do you want to save this money for? ');	
+	let years;
+	// if windows enfore a full year. else we do not care if partial years
+	if (windows) {
+		let notFullYear = true;
+		while (notFullYear) {
+			years = await genericQuestion('How many years do you want to save this money for? ');
+			if (years.includes('.')) console.log('Please make sure you are using full years');
+			else notFullYear = false;
+		}
+	} else {
+		years = await genericQuestion('How many years do you want to save this money for? ');
+	}
+
 	let money = await genericQuestion(`How much money are you saving for ${years} years? `);
 	let rate = await genericQuestion(`What rate are you expecting to get on $${money} for ${years}? `);
 	
@@ -57,6 +72,10 @@ let genericQuestion = (question) => {
 			res(input);
 		});
 	});
+}
+
+let checkOS = () => {
+	return process.platform === 'win32'
 }
 
 // lets get it started in ha let's get it started in
